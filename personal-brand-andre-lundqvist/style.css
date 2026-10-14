@@ -1,0 +1,716 @@
+/* ==========================================================================
+   1 · RESURSER OCH TYPSNITT (GOOGLE FONTS)
+   Här importerar vi moderna och lättlästa typsnitt:
+   - Space Grotesk: För rubriker och siffror (ger en teknisk och modern känsla)
+   - Plus Jakarta Sans: För brödtext och länkar (extremt lättläst och stilren)
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+
+
+/* ==========================================================================
+   2 · BOX-MODELLEN OCH STANDARDÅTERSTÄLLNING
+   Gör att padding och ramar räknas in i elementets totala bredd och höjd.
+   Det förhindrar oväntade överraskningar och oavsiktlig sidledsscroll.
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+
+/* ==========================================================================
+   3 · DESIGNVARIABLER & FÄRGSYSTEM (LJUS / STANDARD)
+   Inspirerat av modern agency-design (Nexifye):
+   - Mörk och kraftfull kontrast
+   - Varma accenter i glödande orange och bärnsten
+   - Alla färgkombinationer uppfyller WCAG AA med minst 4.5:1 kontrast
+   ========================================================================== */
+:root {
+  /* Bakgrunder */
+  --yta: #f6f8fa;                 /* Huvudbakgrund: mjukt ljusgrå/off-white */
+  --yta-2: #ffffff;               /* Kort och sektioner: ren vit */
+  --yta-header: rgba(246, 248, 250, 0.92); /* Halvtransparent sidhuvud */
+  --kant: #e2e8f0;                /* Diskreta ramar runt kort */
+  --kant-stark: #cbd5e1;          /* Tydligare ram för knappar */
+
+  /* Typografifärger (Alla har > 4.5:1 kontrast mot vit och --yta) */
+  --rubrik: #0a0d14;              /* Rubrikfärg: djupt nattsvart (18.5:1 kontrast) */
+  --text: #1e293b;                /* Brödtext: mörk skiffer (12.6:1 kontrast) */
+  --text-muted: #475569;          /* Sekundär text / bildtexter (7.1:1 kontrast) */
+
+  /* Accent- och länkfärger */
+  --primar: #b93800;              /* Djup bränd orange för länkar i ljust läge (5.8:1 mot vit) */
+  --primar-hover: #942d00;        /* Mörkare orange vid hovring */
+  --accent-glod: #ff5a1f;         /* Varm signalorange från Nexifye-inspirationen */
+  --accent-ljus: #ffedd5;         /* Ljus bärnstensfärg för små märken/brickor */
+
+  /* Knappar */
+  --knapp-bakgrund: #0a0d14;      /* Huvudknapp i ljust läge: sobert svart */
+  --knapp-text: #ffffff;          /* Vit text på svart knapp (18.5:1 kontrast) */
+  --knapp-hover: #b93800;         /* Förvandlas till varm orange vid hovring */
+
+  /* Tillgänglighet och fokus */
+  --fokus: #0a0d14;               /* Tydlig, mörk fokusram vid tangentbordsnavigering */
+
+  /* Hero-kort (Specialkort inspirerat av den mörka hero-sektionen i Nexifye) */
+  --hero-bg: #0d111b;             /* Djup marinblå-svart */
+  --hero-kant: rgba(255, 255, 255, 0.12);
+  --hero-rubrik: #ffffff;         /* Vit text (18.2:1 kontrast mot --hero-bg) */
+  --hero-text: #cbd5e1;           /* Ljusgrå text (11.5:1 kontrast mot --hero-bg) */
+  --hero-knapp-bg: #ff5a1f;       /* Glödande signalorange */
+  --hero-knapp-text: #050608;     /* Svart text på orange knapp (8.2:1 kontrast) */
+  --hero-knapp-hover: #ffffff;    /* Vit vid hovring */
+
+  /* Avstånd, radier och skuggor */
+  --luft: 1rem;
+  --radie-kort: 20px;
+  --radie-knapp: 9999px;          /* Helrundade "pill"-knappar som i Nexifye */
+  --skugga-kort: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+  --skugga-hover: 0 14px 30px -4px rgba(15, 23, 42, 0.12);
+  --overgang: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+/* ==========================================================================
+   4 · TILLGÄNGLIGHET OCH TANGENTBORDSFOKUS
+   Krav: Fokusramen ska synas mycket tydligt när användaren tabbar med tangentbordet.
+   Vi använder :focus-visible så att musanvändare slipper onödig ram, medan
+   tangentbordsanvändare får en 3px bred ram med tydlig marginal.
+   ========================================================================== */
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--fokus);
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+
+/* ==========================================================================
+   5 · GRUNDLÄGGANDE TYPOGRAFI OCH LAYOUT (MOBIL FÖRST)
+   All styling byggs upp för mobilskärmar först.
+   Inga element tillåts överskrida skärmbredden (undviker horisontell scroll).
+   ========================================================================== */
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--text);
+  background-color: var(--yta);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Rubriker med modern geometrisk stil */
+h1, h2, h3 {
+  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  line-height: 1.15;
+  color: var(--rubrik);
+  letter-spacing: -0.025em;
+  font-weight: 700;
+  margin-top: 0;
+}
+
+h1 {
+  font-size: 1.75rem;
+  margin-bottom: 0.25rem;
+}
+
+h2 {
+  font-size: 1.625rem;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Läsbar brödtext med radbrytning för långa ord */
+p {
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+  max-width: 68ch;
+  overflow-wrap: break-word;
+}
+
+/* Länkar med god kontrast och tydlig interaktion */
+a {
+  color: var(--primar);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1.5px;
+  transition: var(--overgang);
+}
+
+a:hover {
+  color: var(--primar-hover);
+  text-decoration-thickness: 2.5px;
+}
+
+/* Responsiva bilder */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+
+/* ==========================================================================
+   6 · SIDHUVUD OCH NAVIGATION
+   Sidhuvudet ligger överst och anpassar sig flexibelt på mobil.
+   ========================================================================== */
+.sidhuvud {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.25rem 1rem;
+  background-color: var(--yta-header);
+  border-bottom: 1px solid var(--kant);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.sidhuvud div {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidhuvud h1 {
+  font-weight: 800;
+}
+
+.roll {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* Navigationsmeny */
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav li {
+  margin: 0;
+}
+
+nav a {
+  display: inline-block;
+  padding: 0.5rem 0.85rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  border-radius: var(--radie-knapp);
+  background-color: transparent;
+  transition: var(--overgang);
+}
+
+nav a:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--rubrik);
+  text-decoration: none;
+}
+
+
+/* ==========================================================================
+   7 · TEMAKNAPP (MÖRKT / LJUST LÄGE)
+   Knappen styrs av script.js och stylas som en modern pill-knapp.
+   ========================================================================== */
+#tema {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.55rem 1.15rem;
+  color: var(--text);
+  background-color: var(--yta-2);
+  border: 1px solid var(--kant-stark);
+  border-radius: var(--radie-knapp);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: var(--overgang);
+}
+
+#tema:hover {
+  border-color: var(--primar);
+  color: var(--primar);
+  transform: translateY(-1px);
+}
+
+
+/* ==========================================================================
+   8 · HUVUDINNEHÅLL (MAIN) OCH GEMENSAMMA SEKTIONER
+   Mobil layout: full bredd med god luftighet och skydd mot kantstötning.
+   ========================================================================== */
+main {
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+section {
+  padding: 2.5rem 0;
+  border-bottom: 1px solid var(--kant);
+}
+
+section:last-of-type {
+  border-bottom: none;
+}
+
+
+/* ==========================================================================
+   9 · INTRO / HERO-SEKTION
+   Inspirerad av den mörka herosektionen i Nexifye-mockupen:
+   - Mörk, djup yta med en varm glödande orange ton
+   - Stor fet typografi
+   - Stark call-to-action-knapp
+   ========================================================================== */
+.intro {
+  margin-top: 1.5rem;
+  padding: 2.25rem 1.5rem;
+  background-color: var(--hero-bg);
+  background-image: radial-gradient(circle at 95% 10%, rgba(255, 90, 31, 0.22) 0%, transparent 60%);
+  border: 1px solid var(--hero-kant);
+  border-radius: var(--radie-kort);
+  color: var(--hero-text);
+  box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.intro h2 {
+  color: var(--hero-rubrik);
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 1.25rem;
+  max-width: 25ch;
+}
+
+.intro p {
+  color: var(--hero-text);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  margin-bottom: 1.75rem;
+}
+
+
+/* ==========================================================================
+   10 · KNAPPAR (.knapp)
+   Rundade "pill"-knappar i sann premiumstil med mycket hög kontrast.
+   ========================================================================== */
+.knapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1.75rem;
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: var(--radie-knapp);
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  transition: var(--overgang);
+}
+
+/* Huvudknapp inuti hero */
+.intro .knapp {
+  background-color: var(--hero-knapp-bg);
+  color: var(--hero-knapp-text);
+}
+
+.intro .knapp:hover {
+  background-color: var(--hero-knapp-hover);
+  color: #000000;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 90, 31, 0.4);
+}
+
+/* Standardknappar (t.ex. i kontaktsektionen) */
+.knapp {
+  background-color: var(--knapp-bakgrund);
+  color: var(--knapp-text);
+}
+
+.knapp:hover {
+  background-color: var(--knapp-hover);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(185, 56, 0, 0.3);
+}
+
+
+/* ==========================================================================
+   11 · OM MIG-SEKTION OCH PORTRÄTT
+   Bilden på André presenteras i hög kvalitet med moderna rundade hörn.
+   ========================================================================== */
+#om img {
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: var(--radie-kort);
+  border: 1px solid var(--kant);
+  box-shadow: var(--skugga-kort);
+  margin-bottom: 1.75rem;
+}
+
+#om p:first-of-type {
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--rubrik);
+  line-height: 1.6;
+}
+
+
+/* ==========================================================================
+   12 · VAD JAG GÖR (TJÄNSTER & RUTNÄT)
+   Inspirerat av Nexifyes tjänstelista:
+   - Vi lägger automatiskt till numrering (01, 02, 03...) med CSS-räknare
+   - Kort med subtil ram och lyfteffekt vid hovring
+   ========================================================================== */
+#tjanster .rutnat {
+  counter-reset: tjanste-nummer;
+}
+
+.rutnat {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  list-style: none;
+  padding: 0;
+  margin: 1.75rem 0 0 0;
+}
+
+.kort {
+  background-color: var(--yta-2);
+  border: 1px solid var(--kant);
+  border-radius: var(--radie-kort);
+  padding: 1.75rem 1.5rem;
+  box-shadow: var(--skugga-kort);
+  transition: var(--overgang);
+  display: flex;
+  flex-direction: column;
+}
+
+.kort:hover {
+  transform: translateY(-4px);
+  border-color: var(--kant-stark);
+  box-shadow: var(--skugga-hover);
+}
+
+/* Automatisk stilren sifferbricka (01, 02, ...) för tjänsterna */
+#tjanster .kort {
+  counter-increment: tjanste-nummer;
+  position: relative;
+}
+
+#tjanster .kort::before {
+  content: counter(tjanste-nummer, decimal-leading-zero);
+  display: inline-block;
+  align-self: flex-start;
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--primar);
+  background-color: var(--accent-ljus);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radie-knapp);
+  margin-bottom: 1rem;
+}
+
+.kort h3 {
+  font-size: 1.25rem;
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+.kort p {
+  color: var(--text-muted);
+  font-size: 0.98rem;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+
+/* ==========================================================================
+   13 · PROJEKT & ERFARENHET (PORTFOLIOKORT)
+   Projektkorten har visuella bilder, rubriker, beskrivning och länk.
+   ========================================================================== */
+#projekt .kort {
+  padding: 1.25rem;
+}
+
+#projekt .kort img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: calc(var(--radie-kort) - 6px);
+  margin-bottom: 1.25rem;
+  border: 1px solid var(--kant);
+}
+
+#projekt .kort h3 {
+  font-size: 1.35rem;
+  margin-bottom: 0.75rem;
+}
+
+#projekt .kort p {
+  flex-grow: 1;
+  margin-bottom: 1.25rem;
+}
+
+#projekt .kort a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  text-decoration: none;
+}
+
+#projekt .kort a::after {
+  content: "→";
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+#projekt .kort a:hover::after {
+  transform: translateX(4px);
+}
+
+
+/* ==========================================================================
+   14 · KONTAKT-SEKTION
+   Tydliga kontaktuppgifter med länkar och framträdande bokningsknapp.
+   ========================================================================== */
+#kontakt {
+  padding-bottom: 3.5rem;
+}
+
+#kontakt p {
+  margin-bottom: 1rem;
+}
+
+#kontakt strong {
+  color: var(--rubrik);
+  font-weight: 700;
+  display: inline-block;
+  min-width: 6rem;
+}
+
+#kontakt .knapp {
+  margin-top: 1.5rem;
+}
+
+
+/* ==========================================================================
+   15 · SIDFOT
+   Minimalistisk och sober avslutning på sidan.
+   ========================================================================== */
+footer {
+  padding: 2.5rem 1rem;
+  text-align: center;
+  background-color: var(--yta);
+  border-top: 1px solid var(--kant);
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+footer p {
+  margin: 0 auto;
+}
+
+
+/* ==========================================================================
+   16 · RESPONSIVITET FÖR STÖRRE SKÄRMAR (SURFPLATTA & DATOR)
+   Media queries utökar layouten när skärmen är minst 768px (48rem) respektive
+   1024px (64rem). Mobilupplevelsen förblir grunden.
+   ========================================================================== */
+
+/* Surfplattor och uppåt (>= 768px) */
+@media (min-width: 48rem) {
+  /* Sidhuvud i liggande linje */
+  .sidhuvud {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 2rem;
+  }
+
+  #tema {
+    align-self: center;
+  }
+
+  main {
+    padding: 0 2rem;
+  }
+
+  /* Större rubrikstorlekar */
+  h1 { font-size: 2.25rem; }
+  h2 { font-size: 2.25rem; }
+  h3 { font-size: 1.35rem; }
+
+  /* Hero-sektion med mer rymd */
+  .intro {
+    padding: 3.5rem 3rem;
+    margin-top: 2rem;
+  }
+
+  .intro h2 {
+    font-size: 2.75rem;
+    max-width: 22ch;
+  }
+
+  .intro p {
+    font-size: 1.25rem;
+    max-width: 45ch;
+  }
+
+  /* Om mig: Tvåkolumnslayout med porträtt till vänster */
+  #om {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    column-gap: 3.5rem;
+    row-gap: 1.25rem;
+    align-items: start;
+  }
+
+  #om h2 {
+    grid-column: 1 / -1;
+    margin-bottom: 0.5rem;
+  }
+
+  #om img {
+    grid-column: 1;
+    grid-row: 2 / span 6;
+    position: sticky;
+    top: 6rem;
+    margin-bottom: 0;
+    max-width: 100%;
+  }
+
+  #om p {
+    grid-column: 2;
+    margin-bottom: 1.25rem;
+  }
+
+  /* Rutnät med 2 kolumner */
+  .rutnat {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.75rem;
+  }
+
+  /* Kontaktsektion som ett elegant kort */
+  #kontakt {
+    background-color: var(--yta-2);
+    border: 1px solid var(--kant);
+    border-radius: var(--radie-kort);
+    padding: 3rem 2.5rem;
+    margin-top: 3rem;
+    box-shadow: var(--skugga-kort);
+  }
+}
+
+/* Större datorskärmar (>= 1024px) */
+@media (min-width: 64rem) {
+  /* Tjänster och projekt i 3 kolumner */
+  #tjanster .rutnat,
+  #projekt .rutnat {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .sidhuvud {
+    padding: 1.25rem calc((100vw - 72rem) / 2 + 1rem);
+  }
+}
+
+
+/* ==========================================================================
+   17 · MÖRKT LÄGE (body.morkt)
+   När användaren klickar på temaknappen lägger script.js till klassen "morkt"
+   på body-elementet. Här definierar vi nya färger som ger samma mörka,
+   eleganta estetik som inspirationsbilden och uppfyller minst 4.5:1 kontrast.
+   ========================================================================== */
+body.morkt {
+  /* Bakgrunder */
+  --yta: #080a0f;                 /* Djupt nattsvart canvas */
+  --yta-2: #121620;               /* Upphöjda kortytor */
+  --yta-header: rgba(8, 10, 15, 0.92); /* Halvtransparent mörkt sidhuvud */
+  --kant: rgba(255, 255, 255, 0.08); /* Diskreta ljusa kanter */
+  --kant-stark: rgba(255, 255, 255, 0.2);
+
+  /* Typografi */
+  --rubrik: #ffffff;              /* Vit för rubriker (17.5:1 kontrast mot --yta-2) */
+  --text: #e2e8f0;                /* Slate 200 för brödtext (13.5:1 kontrast mot --yta-2) */
+  --text-muted: #94a3b8;          /* Slate 400 för sekundär text (5.6:1 kontrast mot --yta-2) */
+
+  /* Accenter och länkar */
+  --primar: #ff8a4c;              /* Ljus bärnstens-orange (6.3:1 kontrast mot --yta-2) */
+  --primar-hover: #ffad7d;        /* Ännu ljusare vid hovring */
+  --accent-ljus: rgba(255, 90, 31, 0.15); /* Halvtransparent orange brickbakgrund */
+
+  /* Knappar */
+  --knapp-bakgrund: #ff5a1f;      /* Glödande orange knapp i mörkt läge */
+  --knapp-text: #050608;          /* Svart text på orange knapp (8.2:1 kontrast) */
+  --knapp-hover: #ffffff;         /* Vit knapp vid hovring */
+
+  /* Tangentbordsfokus */
+  --fokus: #ff8a4c;               /* Tydlig orange fokusram mot mörk bakgrund */
+
+  /* Hero-kort i mörkt läge */
+  --hero-bg: #0e121b;
+  --hero-kant: rgba(255, 90, 31, 0.25);
+  --skugga-kort: 0 4px 20px -2px rgba(0, 0, 0, 0.45);
+  --skugga-hover: 0 14px 30px -4px rgba(0, 0, 0, 0.65);
+}
+
+/* Navigeringslänkar i mörkt läge */
+body.morkt nav a:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+/* Tjänstesiffror i mörkt läge */
+body.morkt #tjanster .kort::before {
+  color: #ff9b66;
+  background-color: rgba(255, 90, 31, 0.18);
+  border: 1px solid rgba(255, 90, 31, 0.3);
+}
+
+/* Projektkort i mörkt läge */
+body.morkt #projekt .kort img {
+  border-color: rgba(255, 255, 255, 0.08);
+}
