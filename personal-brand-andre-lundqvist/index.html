@@ -1,58 +1,146 @@
 <!DOCTYPE html>
 <html lang="sv">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>André Lundqvist – Growth Marketing, AI & Digital Analys</title>
 
-  <meta name="description" content="André Lundqvist är entreprenör, Growth Marketer och grundare av GrowthStackr.io. Jag hjälper företag att växa genom AI, digital marknadsföring, automation och dataanalys.">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+  <meta name="description"
+    content="André Lundqvist är entreprenör, Growth Marketer och grundare av GrowthStackr.io. Jag hjälper företag att växa genom AI, digital marknadsföring, automation och dataanalys.">
 
   <link rel="stylesheet" href="style.css">
   <script defer src="script.js"></script>
+  <script src="https://js-eu1.hsforms.net/forms/embed/148562253.js" defer></script>
+  <!-- Google Tag Manager -->
+  <script>(function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-T9NMNK74');</script>
+  <!-- End Google Tag Manager -->
 </head>
 
 <body>
-
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T9NMNK74" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
   <header class="sidhuvud">
-    <div>
-      <h1>André Lundqvist</h1>
-      <p class="roll">Entreprenör, Growth Marketer & AI-entusiast</p>
+    <div class="logo-omrade">
+      <a href="#" class="logo-lank" aria-label="André Lundqvist - Hem">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="9.5" stroke="url(#logo-grad)" stroke-width="2.5" />
+            <circle cx="12" cy="12" r="4" fill="url(#logo-grad)" />
+            <defs>
+              <linearGradient id="logo-grad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#ff5a1f" />
+                <stop offset="1" stop-color="#ff8a4c" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </span>
+        <div class="logo-text">
+          <h1 class="logo-rubrik">André Lundqvist</h1>
+          <p class="roll">Growth & AI</p>
+        </div>
+      </a>
     </div>
 
-    <nav aria-label="Huvudmeny">
-      <ul>
+    <nav aria-label="Huvudmeny" class="nav-meny">
+      <ul class="nav-lista">
         <li><a href="#om">Om mig</a></li>
         <li><a href="#tjanster">Vad jag gör</a></li>
         <li><a href="#projekt">Projekt</a></li>
-        <li><a href="#kontakt">Kontakt</a></li>
+        <li class="mobil-bara"><a href="#kontakt">Kontakt</a></li>
       </ul>
     </nav>
 
-    <button id="tema" type="button" hidden>
-      Byt till mörkt läge
-    </button>
+    <div class="header-atgarder">
+      <button id="tema" type="button" aria-label="Växla mellan ljust och mörkt läge" hidden>
+        Byt till mörkt läge
+      </button>
+
+      <a href="#kontakt" class="knapp cta-knapp">
+        <span>Kontakt</span>
+        <span class="cta-puls" aria-hidden="true"></span>
+      </a>
+
+      <button class="mobil-meny-knapp" type="button" aria-label="Öppna navigationsmeny" aria-expanded="false">
+        <span class="hamburgare-linje"></span>
+        <span class="hamburgare-linje"></span>
+        <span class="hamburgare-linje"></span>
+      </button>
+    </div>
   </header>
 
   <main>
 
-    <!-- INTRO -->
-    <section class="intro">
-      <h2>Jag bygger AI-drivna marknadssystem som hjälper företag att växa</h2>
+    <!-- HERO-SEKTION -->
+    <section class="hero-sektion" id="hero">
+      <div class="hero-kort">
+        <!-- Vänster kolumn: Text, CTA & Statistik -->
+        <div class="hero-innehall">
+          <div class="hero-rubriker">
+            <h2 class="hero-titel">
+              <span class="hero-titel-mork">Design Better</span>
+              <span class="hero-titel-ljus">Faster Smarter</span>
+            </h2>
+            <p class="hero-beskrivning">
+              I design refined brands, websites, and interfaces for ambitious founders and creative teams.
+            </p>
+          </div>
 
-      <p>
-        Jag kombinerar marknadsföring, AI, automation och digital
-        analys för att skapa skalbar tillväxt. Från strategi och
-        kundanskaffning till konvertering och datadrivna beslut.
-      </p>
+          <!-- Knappar (CTA) -->
+          <div class="hero-knappar">
+            <a href="#projekt" class="hero-knapp-primar">View projects</a>
+            <a href="#kontakt" class="hero-knapp-sekundar">Get in touch</a>
+          </div>
 
-      <a class="knapp" href="https://www.growthstackr.io/boka-mote" target="_blank" rel="noopener noreferrer">
-        Boka ett samtal
-      </a>
+          <!-- Statistik (Counters) -->
+          <div class="hero-statistik">
+            <div class="stat-kolumn">
+              <span class="stat-siffra">120+</span>
+              <span class="stat-etikett">Projects completed</span>
+            </div>
+            <div class="stat-kolumn">
+              <span class="stat-siffra">8yr</span>
+              <span class="stat-etikett">Experience</span>
+            </div>
+            <div class="stat-kolumn">
+              <span class="stat-siffra">40+</span>
+              <span class="stat-etikett">Happy clients</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Höger kolumn: Bild med pop-out och flytande glassmorphism-kort -->
+        <div class="hero-media">
+          <div class="hero-bild-ram">
+            <img src="img/andre-hero.png" alt="André Lundqvist" class="hero-profilbild" width="600" height="600">
+          </div>
+
+          <!-- Flytande glassmorphism-kort -->
+          <div class="glass-kort">
+            <div class="glass-kort-text">
+              <span class="glass-tag">Select project</span>
+              <h3 class="glass-rubrik">Available for projects</h3>
+              <p class="glass-beskrivning">Share a few details, and I'll get back with a clear direction.</p>
+            </div>
+            <a href="#kontakt" class="glass-ikon-knapp" aria-label="Kontakta mig för projekt">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
     </section>
 
 
@@ -60,12 +148,7 @@
     <section id="om">
       <h2>Om mig</h2>
 
-      <img
-        src="img/profil.jpg"
-        alt="Porträtt av André Lundqvist"
-        width="400"
-        height="400"
-      >
+      <img src="img/profil.jpg" alt="Porträtt av André Lundqvist" width="400" height="400">
 
       <p>
         Jag heter André Lundqvist och är entreprenör, Growth Marketer
@@ -196,12 +279,8 @@
 
         <article class="kort">
 
-          <img
-            src="img/projekt-1.jpg"
-            alt="GrowthStackr.io – utbildning och AI-driven marknadsföring"
-            width="600"
-            height="400"
-          >
+          <img src="img/projekt-1.jpg" alt="GrowthStackr.io – utbildning och AI-driven marknadsföring" width="600"
+            height="400">
 
           <h3>GrowthStackr.io</h3>
 
@@ -224,12 +303,7 @@
 
         <article class="kort">
 
-          <img
-            src="img/projekt-2.jpg"
-            alt="Digital marknadsföring och tillväxtanalys"
-            width="600"
-            height="400"
-          >
+          <img src="img/projekt-2.jpg" alt="Digital marknadsföring och tillväxtanalys" width="600" height="400">
 
           <h3>Growth Marketing på Ngine Group</h3>
 
@@ -247,12 +321,7 @@
 
         <article class="kort">
 
-          <img
-            src="img/projekt-3.jpg"
-            alt="Utbildning inom digital marknadsföring och analys"
-            width="600"
-            height="400"
-          >
+          <img src="img/projekt-3.jpg" alt="Utbildning inom digital marknadsföring och analys" width="600" height="400">
 
           <h3>Utbildning inom Digital Marketing</h3>
 
@@ -313,6 +382,16 @@
         Boka ett möte
       </a>
 
+      <div class="kontakt-formular" aria-labelledby="formular-rubrik">
+        <div class="formular-intro">
+          <h3 id="formular-rubrik">Berätta om ditt projekt</h3>
+          <p>Fyll i formuläret så återkommer jag till dig.</p>
+        </div>
+        <div class="hs-form-frame" data-region="eu1" data-form-id="9610e260-fac9-4b46-8809-abdd7bb01f38" data-portal-id="148562253"></div>
+        <p class="formular-reserv">Om formuläret inte visas kan du mejla <a href="mailto:andre@growthstackr.io">andre@growthstackr.io</a>.</p>
+        <noscript><p>Aktivera JavaScript för att visa kontaktformuläret.</p></noscript>
+      </div>
+
     </section>
 
   </main>
@@ -327,4 +406,5 @@
   </footer>
 
 </body>
+
 </html>

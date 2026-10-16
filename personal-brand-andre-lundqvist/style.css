@@ -35,9 +35,29 @@ html {
   /* Bakgrunder */
   --yta: #f6f8fa;                 /* Huvudbakgrund: mjukt ljusgrå/off-white */
   --yta-2: #ffffff;               /* Kort och sektioner: ren vit */
-  --yta-header: rgba(246, 248, 250, 0.92); /* Halvtransparent sidhuvud */
+  --yta-header: rgba(255, 255, 255, 0.88); /* Svävande halvtransparent piller-header */
+  --kant-header: rgba(226, 232, 240, 0.9); /* Subtil ram för header */
+  --skugga-header: 0 12px 32px -4px rgba(15, 23, 42, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
   --kant: #e2e8f0;                /* Diskreta ramar runt kort */
   --kant-stark: #cbd5e1;          /* Tydligare ram för knappar */
+
+  /* CTA-knapp gradient (Antigravity-orange) */
+  --cta-bg: linear-gradient(135deg, #ff5a1f 0%, #ff7a3d 50%, #b93800 100%);
+  --cta-bg-hover: linear-gradient(135deg, #ff6e38 0%, #ff8f56 50%, #d44000 100%);
+  --cta-skugga: 0 4px 16px rgba(255, 90, 31, 0.35);
+  --cta-skugga-hover: 0 6px 22px rgba(255, 90, 31, 0.55);
+
+  /* Ny Hero-sektion */
+  --hero-card-bg: #eceff3;
+  --hero-card-border: rgba(0, 0, 0, 0.06);
+  --hero-card-skugga: 0 20px 45px -15px rgba(15, 23, 42, 0.07);
+  --hero-btn-prim-bg: #0c0f17;
+  --hero-btn-prim-text: #ffffff;
+  --hero-btn-sec-bg: #ffffff;
+  --hero-btn-sec-text: #0c0f17;
+  --hero-btn-sec-border: rgba(0, 0, 0, 0.12);
+  --glass-bg: rgba(20, 24, 34, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.15);
 
   /* Typografifärger (Alla har > 4.5:1 kontrast mot vit och --yta) */
   --rubrik: #0a0d14;              /* Rubrikfärg: djupt nattsvart (18.5:1 kontrast) */
@@ -166,89 +186,209 @@ img {
 
 
 /* ==========================================================================
-   6 · SIDHUVUD OCH NAVIGATION
-   Sidhuvudet ligger överst och anpassar sig flexibelt på mobil.
+   6 · SVÄVANDE PILLER-SIDHUVUD (FLOATING PILL HEADER)
+   Inspirerat av modern pillerformad navigationsmeny (t.ex. Augment):
+   - Svävande och centrerad med distans mot toppen
+   - Kraftigt rundade hörn (likt en kapsel / piller)
+   - Glassmorphism med backdrop-filter blur och diskret ram
+   - Logotyp till vänster, länkar i mitten och framträdande CTA-knapp till höger
    ========================================================================== */
 .sidhuvud {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  padding: 1.25rem 1rem;
-  background-color: var(--yta-header);
-  border-bottom: 1px solid var(--kant);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   position: sticky;
-  top: 0;
-  z-index: 100;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  top: 0.75rem;
+  z-index: 1000;
+  width: calc(100% - 1.5rem);
+  max-width: 68rem;
+  margin: 0.75rem auto 0 auto;
+  padding: 0.45rem 0.65rem 0.45rem 1.15rem;
+  background-color: var(--yta-header);
+  border: 1px solid var(--kant-header);
+  border-radius: var(--radie-knapp);
+  box-shadow: var(--skugga-header);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.sidhuvud div {
+/* Smidig marginal så att sektionsankare inte täcks av det svävande sidhuvudet */
+section {
+  scroll-margin-top: 5.5rem;
+}
+
+/* 6.1 Logotyp (vänster) */
+.logo-omrade {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.logo-lank {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-decoration: none;
+  color: var(--rubrik);
+  transition: var(--overgang);
+}
+
+.logo-lank:hover {
+  color: var(--accent-glod);
+  text-decoration: none;
+}
+
+.logo-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.logo-lank:hover .logo-mark {
+  transform: rotate(45deg);
+}
+
+.logo-text {
   display: flex;
   flex-direction: column;
 }
 
-.sidhuvud h1 {
-  font-weight: 800;
+.logo-rubrik {
+  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+  line-height: 1.15;
+  color: inherit;
+  white-space: nowrap;
 }
 
 .roll {
   margin: 0;
-  font-size: 0.875rem;
+  font-size: 0.6875rem;
   font-weight: 600;
   color: var(--text-muted);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
+  display: none;
 }
 
-/* Navigationsmeny */
-nav ul {
+/* 6.2 Navigationsmeny (mitten) */
+.nav-meny {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+  align-items: center;
+}
+
+.nav-lista {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-nav li {
+.nav-lista li {
   margin: 0;
 }
 
-nav a {
+.nav-lista a {
   display: inline-block;
-  padding: 0.5rem 0.85rem;
+  padding: 0.5rem 0.95rem;
   font-size: 0.9375rem;
   font-weight: 600;
-  color: var(--text);
+  color: var(--text-muted);
   text-decoration: none;
   border-radius: var(--radie-knapp);
   background-color: transparent;
   transition: var(--overgang);
+  white-space: nowrap;
 }
 
-nav a:hover {
+.nav-lista a:hover {
   background-color: rgba(0, 0, 0, 0.05);
   color: var(--rubrik);
   text-decoration: none;
 }
 
+.mobil-bara {
+  display: none;
+}
 
-/* ==========================================================================
-   7 · TEMAKNAPP (MÖRKT / LJUST LÄGE)
-   Knappen styrs av script.js och stylas som en modern pill-knapp.
-   ========================================================================== */
+/* 6.3 Åtgärder till höger (Tema, CTA, Hamburgare) */
+.header-atgarder {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* Framträdande Call-to-Action knapp för "Kontakt" */
+.knapp.cta-knapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.55rem 1.25rem;
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: var(--radie-knapp);
+  color: #ffffff !important;
+  background-color: transparent;
+  background-image: var(--cta-bg);
+  box-shadow: var(--cta-skugga);
+  transition: var(--overgang);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  border: none;
+}
+
+.knapp.cta-knapp:hover {
+  background-image: var(--cta-bg-hover);
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: var(--cta-skugga-hover);
+  text-decoration: none;
+}
+
+/* Pulserande ljuspunkt i CTA-knappen för modern live-känsla */
+.cta-puls {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+  display: inline-block;
+  animation: pulsera-cta 2s infinite ease-in-out;
+}
+
+@keyframes pulsera-cta {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.8);
+  }
+}
+
+/* 6.4 Temaknapp */
 #tema {
-  align-self: flex-start;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
   font-family: inherit;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 600;
-  padding: 0.55rem 1.15rem;
+  padding: 0.5rem 0.95rem;
   color: var(--text);
   background-color: var(--yta-2);
   border: 1px solid var(--kant-stark);
@@ -256,12 +396,66 @@ nav a:hover {
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
   transition: var(--overgang);
+  white-space: nowrap;
+}
+
+#tema::before {
+  content: "🌙";
+  font-size: 0.875rem;
+}
+
+body.morkt #tema::before {
+  content: "☀️";
 }
 
 #tema:hover {
-  border-color: var(--primar);
-  color: var(--primar);
+  border-color: var(--accent-glod);
+  color: var(--accent-glod);
   transform: translateY(-1px);
+}
+
+/* 6.5 Mobilmeny-knapp (Hamburgare) */
+.mobil-meny-knapp {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid var(--kant-stark);
+  background-color: var(--yta-2);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: var(--overgang);
+}
+
+.mobil-meny-knapp:hover {
+  border-color: var(--accent-glod);
+  transform: translateY(-1px);
+}
+
+.hamburgare-linje {
+  display: block;
+  width: 17px;
+  height: 2px;
+  background-color: var(--rubrik);
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.mobil-meny-knapp[aria-expanded="true"] .hamburgare-linje:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.mobil-meny-knapp[aria-expanded="true"] .hamburgare-linje:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.mobil-meny-knapp[aria-expanded="true"] .hamburgare-linje:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
 }
 
 
@@ -560,18 +754,110 @@ footer p {
    1024px (64rem). Mobilupplevelsen förblir grunden.
    ========================================================================== */
 
-/* Surfplattor och uppåt (>= 768px) */
-@media (min-width: 48rem) {
-  /* Sidhuvud i liggande linje */
+/* Mobilskärmar (< 768px) */
+@media (max-width: 47.99rem) {
   .sidhuvud {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.25rem 2rem;
+    top: 0.5rem;
+    width: calc(100% - 1rem);
+    margin: 0.5rem auto 0 auto;
+    padding: 0.45rem 0.5rem 0.45rem 0.85rem;
   }
 
+  .logo-rubrik {
+    font-size: 0.95rem;
+  }
+
+  /* På små skärmar blir temaknappen en cirkulär ikonknapp */
   #tema {
-    align-self: center;
+    font-size: 0;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border-radius: 50%;
+  }
+
+  #tema::before {
+    font-size: 1rem;
+    margin: 0;
+  }
+
+  .cta-knapp {
+    padding: 0.45rem 0.95rem;
+    font-size: 0.8125rem;
+    gap: 0.4rem;
+  }
+
+  .mobil-meny-knapp {
+    display: flex;
+  }
+
+  /* Mobilmenyn fälls ut som ett matchande svävande kort under headern */
+  .nav-meny {
+    position: absolute;
+    top: calc(100% + 0.6rem);
+    left: 0;
+    right: 0;
+    background-color: var(--yta-header);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--kant-header);
+    border-radius: 20px;
+    box-shadow: var(--skugga-header);
+    padding: 0.75rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px) scale(0.98);
+    transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.25s;
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  .nav-meny.aktiv {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+
+  .nav-lista {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.35rem;
+    width: 100%;
+  }
+
+  .nav-lista a {
+    display: block;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    color: var(--text);
+  }
+
+  .nav-lista a:hover {
+    background-color: rgba(255, 90, 31, 0.1);
+    color: var(--accent-glod);
+  }
+
+  .mobil-bara {
+    display: block;
+  }
+}
+
+/* Surfplattor och uppåt (>= 768px) */
+@media (min-width: 48rem) {
+  .sidhuvud {
+    top: 1rem;
+    margin: 1rem auto 0 auto;
+    padding: 0.5rem 0.65rem 0.5rem 1.25rem;
+  }
+
+  .roll {
+    display: block;
+  }
+
+  .logo-rubrik {
+    font-size: 1.125rem;
   }
 
   main {
@@ -653,7 +939,9 @@ footer p {
   }
 
   .sidhuvud {
-    padding: 1.25rem calc((100vw - 72rem) / 2 + 1rem);
+    top: 1.25rem;
+    margin: 1.25rem auto 0 auto;
+    padding: 0.55rem 0.75rem 0.55rem 1.5rem;
   }
 }
 
@@ -668,7 +956,9 @@ body.morkt {
   /* Bakgrunder */
   --yta: #080a0f;                 /* Djupt nattsvart canvas */
   --yta-2: #121620;               /* Upphöjda kortytor */
-  --yta-header: rgba(8, 10, 15, 0.92); /* Halvtransparent mörkt sidhuvud */
+  --yta-header: rgba(13, 17, 27, 0.86); /* Svävande halvtransparent mörkt sidhuvud */
+  --kant-header: rgba(255, 255, 255, 0.12); /* Ljus ram i mörkt läge */
+  --skugga-header: 0 16px 36px -4px rgba(0, 0, 0, 0.55), 0 4px 14px -2px rgba(0, 0, 0, 0.35);
   --kant: rgba(255, 255, 255, 0.08); /* Diskreta ljusa kanter */
   --kant-stark: rgba(255, 255, 255, 0.2);
 
@@ -687,6 +977,12 @@ body.morkt {
   --knapp-text: #050608;          /* Svart text på orange knapp (8.2:1 kontrast) */
   --knapp-hover: #ffffff;         /* Vit knapp vid hovring */
 
+  /* CTA gradient */
+  --cta-bg: linear-gradient(135deg, #ff5a1f 0%, #ff7a3d 50%, #b93800 100%);
+  --cta-bg-hover: linear-gradient(135deg, #ff6e38 0%, #ff8f56 50%, #d44000 100%);
+  --cta-skugga: 0 4px 18px rgba(255, 90, 31, 0.45);
+  --cta-skugga-hover: 0 6px 24px rgba(255, 90, 31, 0.65);
+
   /* Tangentbordsfokus */
   --fokus: #ff8a4c;               /* Tydlig orange fokusram mot mörk bakgrund */
 
@@ -698,9 +994,14 @@ body.morkt {
 }
 
 /* Navigeringslänkar i mörkt läge */
-body.morkt nav a:hover {
+body.morkt .nav-lista a:hover {
   background-color: rgba(255, 255, 255, 0.08);
   color: #ffffff;
+}
+
+body.morkt .nav-meny a:hover {
+  background-color: rgba(255, 90, 31, 0.18);
+  color: #ff8a4c;
 }
 
 /* Tjänstesiffror i mörkt läge */
@@ -714,3 +1015,240 @@ body.morkt #tjanster .kort::before {
 body.morkt #projekt .kort img {
   border-color: rgba(255, 255, 255, 0.08);
 }
+
+/* Hero: ljus porträttyta med typografi och kontaktkort. */
+.hero-sektion {
+  padding: 3.5rem 0 2.5rem;
+  border-bottom: 0;
+}
+
+.hero-kort {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 1.08fr 1fr;
+  min-height: 510px;
+  border-radius: 30px;
+  background: linear-gradient(105deg, #eeeef0 48%, #e2e3e5 75%, #cfd1d3);
+  color: #171719;
+}
+
+.hero-innehall {
+  position: relative;
+  z-index: 2;
+  align-self: center;
+  padding: 64px 0 64px clamp(32px, 6vw, 84px);
+}
+
+.hero-titel {
+  margin: 0 0 18px;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(38px, 4.6vw, 58px);
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+  color: #171719;
+}
+
+.hero-titel span { display: block; }
+.hero-titel-ljus { color: #77787c; }
+
+.hero-beskrivning {
+  max-width: 39ch;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.65;
+  color: #515257;
+}
+
+.hero-knappar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.hero-knapp-primar,
+.hero-knapp-sekundar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 8px 17px;
+  border: 1px solid #d3d4d9;
+  border-radius: 8px;
+  color: #171719;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.hero-knapp-primar {
+  color: #fff;
+  border-color: #252529;
+  background: linear-gradient(135deg, #29292d, #101013);
+  box-shadow: 0 3px 6px #0002, inset 0 1px 1px #ffffff29;
+}
+
+.hero-knapp-primar:hover { color: #fff; background: #303034; transform: translateY(-2px); }
+.hero-knapp-sekundar:hover { color: #171719; background: #ffffff70; transform: translateY(-2px); }
+
+.hero-statistik {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 32px;
+  margin-top: 30px;
+}
+
+.stat-kolumn { display: flex; flex-direction: column; gap: 3px; }
+.stat-siffra {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.05em;
+}
+.stat-etikett { font-size: 12px; color: #54555a; }
+
+.hero-media { position: relative; min-width: 0; }
+.hero-bild-ram {
+  position: absolute;
+  inset: -42px 0 0 -30px;
+  overflow: hidden;
+  border-radius: 0 0 30px 0;
+}
+.hero-profilbild {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center top;
+  filter: grayscale(1);
+}
+
+.glass-kort {
+  position: absolute;
+  z-index: 3;
+  bottom: 40px;
+  right: 28px;
+  width: min(340px, calc(100% - 28px));
+  display: flex;
+  align-items: flex-end;
+  gap: 18px;
+  padding: 24px;
+  border: 1px solid #ffffff40;
+  border-radius: 16px;
+  background: linear-gradient(115deg, #ffffff30, #ffffff08), #29292fbf;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 10px 30px #0000000d, inset 0 1px 0 #ffffff20;
+  color: #fff;
+}
+.glass-kort-text { flex: 1; min-width: 0; }
+.glass-tag { display: block; margin-bottom: 5px; font-size: 11px; color: #e0e0e3; }
+.glass-rubrik {
+  margin: 0 0 7px;
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+.glass-beskrivning { margin: 0; font-size: 11px; line-height: 1.6; color: #eeeeef; }
+.glass-ikon-knapp {
+  display: grid;
+  place-items: center;
+  flex: 0 0 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: #fff;
+  color: #202023;
+}
+.glass-ikon-knapp:hover { color: #202023; transform: translateY(-2px); background: #ededf0; }
+
+@media (max-width: 60rem) and (min-width: 48rem) {
+  .hero-innehall { padding-left: 32px; }
+  .hero-statistik { gap: 18px; }
+  .glass-kort { right: 18px; bottom: 26px; padding: 18px; }
+}
+
+@media (max-width: 47.99rem) {
+  .hero-sektion { padding-top: 1.75rem; }
+  .hero-kort { grid-template-columns: 1fr; border-radius: 24px; }
+  .hero-innehall { padding: 34px 26px 20px; }
+  .hero-titel { font-size: clamp(34px, 8vw, 52px); }
+  .hero-beskrivning { max-width: 39ch; font-size: 14px; }
+  .hero-statistik { gap: 18px 24px; margin-top: 26px; }
+  .stat-siffra { font-size: 30px; }
+  .stat-etikett { font-size: 11px; }
+  .hero-media { min-height: 390px; }
+  .hero-bild-ram { inset: 0; border-radius: 0 0 24px 24px; }
+  .hero-profilbild { object-fit: contain; object-position: center bottom; }
+  .glass-kort { bottom: 20px; right: 20px; width: min(340px, calc(100% - 40px)); padding: 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-sektion a { transition: none; }
+  .hero-sektion a:hover { transform: none; }
+}
+
+/* Kompakt sidhuvud när navigation och knappar behöver mer plats. */
+@media (max-width: 60rem) {
+  .sidhuvud { gap: 8px; padding: 8px 10px; }
+  .logo-omrade, .logo-lank, .logo-text { min-width: 0; }
+  .logo-omrade { flex: 1; }
+  .logo-rubrik { overflow: hidden; text-overflow: ellipsis; font-size: 14px; }
+  .roll { display: none; }
+  #tema { flex: 0 0 34px; width: 34px; height: 34px; padding: 0; font-size: 0; gap: 0; }
+  #tema::before { font-size: 15px; }
+  .knapp.cta-knapp { padding: 9px 12px; font-size: 12px; }
+}
+@media (max-width: 23rem) {
+  .logo-mark { display: none; }
+  .header-atgarder { gap: 4px; }
+  .knapp.cta-knapp .cta-puls { display: none; }
+}
+
+/* Kontaktformulär */
+.kontakt-formular {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--kant);
+}
+.formular-intro h3 { margin-bottom: 0.6rem; }
+#kontakt .formular-intro p { margin: 0; color: var(--text-muted); font-size: 0.9375rem; }
+.formular-rad { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.25rem; }
+.formular-falt { display: grid; gap: 0.5rem; min-width: 0; }
+.formular-falt label { color: var(--rubrik); font-size: 0.9375rem; font-weight: 600; }
+.formular-falt label span { color: var(--text-muted); font-size: 0.8125rem; font-weight: 400; }
+.formular-falt input,
+.formular-falt textarea {
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--kant-stark);
+  border-radius: 10px;
+  background: var(--yta);
+  color: var(--text);
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+.formular-falt textarea { resize: vertical; }
+.formular-falt textarea::placeholder { color: var(--text-muted); opacity: 1; }
+.formular-falt input:focus-visible,
+.formular-falt textarea:focus-visible { outline: 3px solid var(--fokus); outline-offset: 3px; }
+#kontakt .kontakt-formular .knapp { justify-self: start; margin-top: 0; border: 0; gap: 0.75rem; white-space: normal; text-align: left; }
+#kontakt .formular-status { margin: 0; font-size: 0.875rem; color: var(--text-muted); overflow-wrap: anywhere; }
+.formular-status:empty { display: none; }
+@media (max-width: 35rem) {
+  .formular-rad { grid-template-columns: minmax(0, 1fr); }
+  .kontakt-formular .knapp { width: 100%; }
+}
+
+.kontakt-formular .hs-form-frame { width: 100%; min-width: 0; }
+#kontakt .formular-reserv { margin: 0; color: var(--text-muted); font-size: 0.875rem; }
